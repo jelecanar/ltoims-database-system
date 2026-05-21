@@ -1,0 +1,5 @@
+print("LTO Information Management System")
+print("Database successfully connected.")
+print("Driver Management")
+print("Vehicle Registration")
+print("Traffic Violation Monitoring")
