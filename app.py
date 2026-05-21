@@ -1,36 +1,65 @@
+from flask import Flask, jsonify, request
 import mariadb
+from flask_cors import CORS
 
-print("===================================")
-print(" LTO Information Management System ")
-print("===================================")
+app = Flask(__name__)
+CORS(app)
 
-try:
-    conn = mariadb.connect(
+def get_connection():
+    return mariadb.connect(
         host="localhost",
         user="root",
         password="yourpassword",
         database="JimlethDB"
     )
 
-    cursor = conn.cursor()
+@app.route("/")
+def home():
+    return jsonify({"message": "JimlethDB Backend is running"})
 
-    print("\nDatabase Connected Successfully")
+@app.route("/drivers")
+def get_drivers():
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("SHOW TABLES")
-
-    print("\nAvailable Tables:")
-    for table in cursor:
-        print("•", table[0])
-
-    print("\nSystem Features:")
-    print("✓ Driver Management")
-    print("✓ Vehicle Registration")
-    print("✓ Traffic Violation Monitoring")
-    print("✓ Appointments")
-    print("✓ Payment Processing")
-    print("✓ Notifications")
+    cursor.execute("SELECT * FROM driver")
+    drivers = cursor.fetchall()
 
     conn.close()
+    return jsonify(drivers)
 
-except mariadb.Error as e:
-    print("Database Error:", e)
+@app.route("/vehicles")
+def get_vehicles():
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM vehicle")
+    vehicles = cursor.fetchall()
+
+    conn.close()
+    return jsonify(vehicles)
+
+@app.route("/violations")
+def get_violations():
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM traffic_violation")
+    violations = cursor.fetchall()
+
+    conn.close()
+    return jsonify(violations)
+
+@app.route("/registrations")
+def get_registrations():
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("SELECT * FROM vehicle_registration")
+    registrations = cursor.fetchall()
+
+    conn.close()
+    return jsonify(registrations)
+
+if __name__ == "__main__":
+    app.run(debug=True)
