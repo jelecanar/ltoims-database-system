@@ -20,3 +20,13 @@ LTOIMS is a database management system designed to manage driver records, vehicl
 - Vehicle
 - Traffic_Violation
 - Vehicle_Registration
+
+## Backend
+
+This project uses Flask as the backend server.
+
+### Run Backend
+
+```bash
+pip install -r requirements.txt
+python app.py
