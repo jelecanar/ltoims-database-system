@@ -5,7 +5,6 @@ def get_connection():
         host="localhost",
         user="root",
         password="yourpassword",
-        database="LTOIMS"
+        database="JimlethDB"
     )
-
     return conn
